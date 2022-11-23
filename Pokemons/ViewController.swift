@@ -62,7 +62,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             let pockemonScene = SCNScene(named: "art.scnassets/Oddish/Oddish.scn")
             if let pockemonNode = pockemonScene?.rootNode.childNode(withName: "Oodish", recursively: true) {
-                pockemonNode.position = SCNVector3(0, 0, -0.99)
+                pockemonNode.eulerAngles.x = .pi/2
+//                pockemonNode.position = SCNVector3(0, 0, -0.99)
 //                pockemonNode.transform = SCNMatrix4MakeRotation(-.pi/2, 0, 0, 1)
                
                 planeNode.addChildNode(pockemonNode)
