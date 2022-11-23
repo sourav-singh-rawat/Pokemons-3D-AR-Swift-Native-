@@ -9,6 +9,16 @@ import UIKit
 import SceneKit
 import ARKit
 
+struct PokemonDetails {
+    let identifier: String
+    let model: String
+}
+
+let pokemonsRegistered: [String:PokemonDetails] = [
+    "Eevee-card": PokemonDetails(identifier: "Eevee", model: "art.scnassets/Eevee/Eevee.scn"),
+    "Oddish-card":PokemonDetails(identifier: "Oddish", model: "art.scnassets/Oddish/Oddish.scn")
+]
+
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
@@ -60,9 +70,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             node.addChildNode(planeNode)
             
-            let pockemonScene = SCNScene(named: "art.scnassets/Oddish/Oddish.scn")
-            if let pockemonNode = pockemonScene?.rootNode.childNode(withName: "Oodish", recursively: true) {
+            guard let pokemonName = imageAnchor.referenceImage.name else {
+                fatalError("Pokemon not registered")
+            }
+            
+            guard let pokemonDetails = pokemonsRegistered[pokemonName] else {
+                fatalError("Pokemon details not registered")
+            }
+            
+            let pockemonScene = SCNScene(named: pokemonDetails.model)
+            
+            if let pockemonNode = pockemonScene?.rootNode.childNode(withName: pokemonDetails.identifier, recursively: true) {
                 pockemonNode.eulerAngles.x = .pi/2
+                //TODO: Scale is not working for pokemon
 //                pockemonNode.position = SCNVector3(0, 0, -0.99)
 //                pockemonNode.transform = SCNMatrix4MakeRotation(-.pi/2, 0, 0, 1)
                
